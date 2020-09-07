@@ -7,8 +7,6 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          mkdir output
       - uses: docker://pandoc/latex:latest
         with:
           args: >- 
@@ -19,6 +17,7 @@ jobs:
             --filter=pandoc-citeproc
             --bibliography=template/references.bib
             --resource-path=template
+            --log=pdf.json
       - uses: docker://pandoc/latex:latest
         with:
           args: >- 
@@ -28,10 +27,23 @@ jobs:
             --filter=pandoc-citeproc
             --bibliography=template/references.bib
             --resource-path=template
+            --log=docx.json
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: logs
+          path: |
+            pdf.json
+            docx.json
       - uses: actions/upload-artifact@v2
         with:
           name: output
           path: |
             template/academic-pandoc-template.pdf
             template/academic-pandoc-template.docx
-            
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add template/academic-pandoc-template.pdf template/academic-pandoc-template.docx 
+          git commit -m "generated"
+          git push
