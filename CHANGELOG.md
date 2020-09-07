@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/maehr/academic-pandoc-template/compare/...HEAD)
 
+### Added
+
+- Pandoc workflow to automatically build pdf and docx
+
 ## [0.0.6](https://github.com/maehr/academic-pandoc-template/tree/v0.0.6) - 2020-08-16
 
 ### Added
